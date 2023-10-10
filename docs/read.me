@@ -1,5 +1,4 @@
-The LLM Flows offers a method for extracting LLM prompts from the final code and allows also to chain multiple prompts,
-or to filter or validate  with code the results of a prompt execution.
+The LLM Flows offers a method for extracting LLM prompts from the final code and allows a chain of multiple prompts to filter or validate  with code the results of a prompt execution.
 
 
 
@@ -17,8 +16,10 @@ flows.registerFlow("generateTitles", {...}
 
 ## Remote & Local APIs recommendations
 
-The flows factory as well as the code from the flows does not impose any APIs or communication protocol with the expection of the this.retun(value) syntax.
+The flows factory, as well as the code from the flows, does not impose any APIs or communication protocol with the expectation of this.retun(value) syntax.
 However, we recommend to use the following APIs:
+
+### setDefaultValues()   
 
 ### setCostsLevel(number_between_0_and_10)
 
@@ -26,9 +27,9 @@ However, we recommend to use the following APIs:
 
 ### setCreativityLevel(number_between_0_and_10)
 
-### request(prompt, numberOfOptions, max_tokens_per_option)
+### request(prompt, numberOfOptions, max_tokens)
 
-### requestAs(personalityName, prompt, numberOfOptions, max_tokens_per_option)
+### requestAs(personalityName, prompt, numberOfOptions, max_tokens)
 
 ### brainstorm(prompt, numberOfOptions, max_tokens_per_option)
 
