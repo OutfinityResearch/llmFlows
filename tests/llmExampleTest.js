@@ -5,7 +5,7 @@ let standardLLMApis = {
         /* send to the remote endpoints*/
         return level;
     },
-    setCreativitylevel : async function (level){
+    setCreativityLevel : async function (level){
         /* send to the remote endpoints*/
         return options;
     },
@@ -19,6 +19,24 @@ let standardLLMApis = {
             alternatives.push("Alternative " + prompt + " " + i);
         }
         return alternatives;
+    },
+    setCostsLevel : async function (level){
+
+    },
+    proofread : async function (personalityName, prompt){
+
+    },
+    definePersonality: function(personalityName, personalityDescription){
+
+    },
+    emotions: function(listOfPersonalities, prompt){
+
+    },
+    isLLMText: function(text){
+
+    },
+    filterLLMText: function(text){
+
     }
 }
 

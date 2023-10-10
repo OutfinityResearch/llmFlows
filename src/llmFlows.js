@@ -2,6 +2,10 @@
 function LLmFlow(description, externalAPIs){
     this.description = description;
     let self = this;
+    let __startArgs = []
+    let __numberOfRetries = 3;
+    let __actualRetries = 0;
+    let initialised = false;
 
     for(let fn in description){
         this[fn] = description[fn].bind(this);
@@ -20,15 +24,37 @@ function LLmFlow(description, externalAPIs){
         return this.resolve(value);
     }
 
-    this.fail = function(error){
+    this.fail = function(error) {
+        if (typeof error === "string"){
+            error = new Error(error);
+        }
         return this.reject(error);
     }
 
-    this.run = function(...args){
-        self.start.apply(self, args);
-        return returnPromise;
+    this.retry = function(){
+        __actualRetries++;
+        if(__actualRetries > __numberOfRetries){
+            this.fail("Max number of retries reached");
+        }
+        self.start.apply(self, __startArgs);
     }
 
+    this.setRetries = function(numberOfRetries){
+        if(!initialised){
+            __numberOfRetries = numberOfRetries;
+        }
+    }
+
+    this.run = function(...args){
+        __startArgs = args;
+        if(self.start === undefined){
+            this.fail(Error("Flows must have a function called 'start' "));
+        } else {
+            self.start.apply(self, args);
+            initialised = true;
+        }
+        return returnPromise;
+    }
 }
 
 module.exports =
@@ -41,6 +67,9 @@ module.exports =
                 registry[flowName] = description;
             },
             callAsync: async function(flowName, ...args){
+                if(registry[flowName] === undefined){
+                    throw new Error("Flow " + flowName + " not found");
+                }
                 let flow = new LLmFlow(registry[flowName], externalAPIs);
                 return await flow.run(...args);
             }
