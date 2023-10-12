@@ -57,9 +57,9 @@ function LLmFlow(description, externalAPIs){
     }
 }
 
-module.exports =
-    {
-        createFlowsFactory: function (externalAPIs){
+export const createFlowsFactory =
+
+        function (externalAPIs){
         let registry = {};
 
         return {
@@ -74,5 +74,5 @@ module.exports =
                 return await flow.run(...args);
             }
         }
-    }
+
 }
